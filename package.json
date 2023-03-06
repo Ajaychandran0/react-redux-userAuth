@@ -1,0 +1,22 @@
+{
+  "name": "react_web_app",
+  "version": "1.0.0",
+  "description": "user Authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/app.js",
+    "server": "nodemon backend/app.js"
+
+  },
+  "author": "ajay chandran",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
