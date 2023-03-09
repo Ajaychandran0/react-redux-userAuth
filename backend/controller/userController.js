@@ -9,7 +9,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (!name || !email || !password) {
         res.status(400)
-        throw new Error('please enter all fields ok')
+        throw new Error('Please enter all fields ok')
     }
     // check if user exists
     const userExists = await User.findOne({email})
@@ -69,13 +69,8 @@ const generateToken = (id) =>{
 
 
 const getUser = asyncHandler(async (req, res) => {
-    const {_id, name, email} = await User.findById(req.user.id)
-
-    res.status(200).json({
-        id:_id,
-        name,
-        email
-    })
+    
+    res.status(200).json(req.user)
 })
 
 const updateUser = asyncHandler(async (req, res) => {
