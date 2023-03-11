@@ -2,11 +2,14 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
+import AdminHeader from "./AdminHeader";
+
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const {admin} = useSelector(state => state.admin)
 
   const onLogout = ()=>{
     dispatch(logout())
@@ -14,10 +17,14 @@ function Header() {
     navigate('/')
   }
 
+  if(admin && ! user){
+    return <AdminHeader/>
+  }
+
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/"> My App </Link>
+        <Link to="/" onClick={()=>console.log('hey in hey')}> My App </Link>
       </div>
       <ul>
         {user ? (

@@ -4,6 +4,9 @@ const dotenv = require('dotenv').config()
 const port = process.env.PORT || 5000
 const {errorHandler} = require('./middleware/errorMiddleware')
 
+const adminRouter = require('./routes/adminRoutes');
+const usersRouter = require('./routes/userRoutes');
+
 const connectDB = require('./config/db')
 connectDB()
 
@@ -20,7 +23,9 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
-app.use('/api/users', require('./routes/routes'))
+app.use('/api/users', usersRouter)
+app.use('/api/admin', adminRouter)
+
 
 app.use(errorHandler)
 
