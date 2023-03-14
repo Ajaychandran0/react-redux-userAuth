@@ -40,10 +40,48 @@ const logout = () => {
     localStorage.removeItem('user')
 }
 
+// change user image
+const changeUserImage = async (imageUrl, token) => {
+    try {
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.put(API_URL , {imageUrl}, config)
+        console.log(response.data,' hey this is in change user image')
+        return response.data
+
+    } catch (error) {
+        throw new Error(error.response.data.message)
+    }
+}
+
+// get user data
+const getUserData = async (token) => {
+    try {
+        console.log(token, 'thins is token in getUsersata')
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.get(API_URL, config)
+        console.log(response,'response in getuserdata')
+        return response.data
+
+    } catch (error) {
+        throw new Error(error.response.data.message)
+    }
+}
+
+
 const authService = {
     register,
     logout,
-    login
+    login,
+    changeUserImage,
+    getUserData
 }
 
 export default authService

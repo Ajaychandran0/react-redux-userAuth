@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../../features/auth/authSlice";
 import Spinner from "../../components/Spinner";
+import Layout from "../../components/Layout";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ function Login() {
     password: "",
   });
 
-  const {email, password} = formData;
+  const { email, password } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,26 +36,26 @@ function Login() {
 
   const onChange = (e) => {
     setFormData((prevState) => ({
-        ...prevState,
-        [e.target.name] : e.target.value
+      ...prevState,
+      [e.target.name]: e.target.value
     }))
   };
 
   const onSubmit = (e) => {
     e.preventDefault()
     const userData = {
-        email,
-        password
+      email,
+      password
     }
     dispatch(login(userData))
   }
 
-  if(isLoading){
-    return <Spinner/>
+  if (isLoading) {
+    return <Spinner />
   }
 
   return (
-    <>
+    <Layout title='Login'>
       <section className="heading">
         <h1>
           <FaSignInAlt /> Login
@@ -88,15 +89,15 @@ function Login() {
               onChange={onChange}
             />
           </div>
-          
+
           <div className="form-group">
             <button type="submit" className="button button-block">
-                Submit
+              Submit
             </button>
           </div>
         </form>
       </section>
-    </>
+    </Layout>
   );
 }
 

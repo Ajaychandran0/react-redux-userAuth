@@ -4,15 +4,16 @@ const {
     getUser,
     loginAdmin,
     updateUser,
-    deleteUser
+    deleteUser,
+    searchUser
 } = require('../controller/adminController')
 
 const {protect} = require('../middleware/authMiddleware')
 
 router.post('/login', loginAdmin)
-router.get('/me',protect, getUser)
-
-router.route('/:id').delete(deleteUser).put(updateUser)
+router.get('/',protect, getUser)
+router.post('/user/search',protect, searchUser)
+router.route('/user/:id', protect).delete(deleteUser).put(updateUser)
 
 
 module.exports = router

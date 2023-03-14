@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Table, Button, Container, Form } from "react-bootstrap";
+import { Table, Button, Form } from "react-bootstrap";
 import UsersData from "../../components/UsersData";
-import { getUsers, reset } from "../../features/admin/usersSlice";
-import Spinner from "../../components/Spinner";
+import { getUsers, filterUser, reset } from "../../features/admin/usersSlice";
+// import Spinner from "../../components/Spinner";
+import AdminLayout from "../../components/AdminLayout";
 
+  
 function AdminDashboard() {
   const { admin } = useSelector((state) => state.admin);
-  const { users, isLoading, isError, message } = useSelector(
-    (state) => state.users
-  );
+  const { users, isError, message } = useSelector((state) => state.users)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('in use effect')
     if (isError) {
       console.log('hey in error');
       console.log(message);
@@ -26,37 +27,43 @@ function AdminDashboard() {
     }
 
     dispatch(getUsers());
+    
+    // here  return function works when the component unmounts 
     return () => {
       console.log('hey in dispatch reset')
       dispatch(reset())
     }
 
-  }, [admin, navigate, dispatch, isError, message]);
+  }, [admin, navigate]);
 
   const [search, setSearch] = useState("");
 
   const searchUser = () => {
-    // dispatch(filterUser({search}))
+    dispatch(filterUser(search))
   };
 
-  let deletedata;
+  // if(isLoading){
+  //   return <Spinner/>
+  // }
 
-  if(isLoading){
-    return <Spinner/>
+   const settingSearch =(value)=>{
+    if(value.length===0){
+      setSearch(value)
+      dispatch(filterUser(''))
+    }else{
+      setSearch(value)
+      // dispatch(adminSearch(searchkeyword))
+    }
   }
 
   return (
-    <Container className="adminDashboard">
-      {deletedata ? (
-        <h3 style={{ color: "red" }}>User Deleted Successfully</h3>
-      ) : (
-        ""
-      )}
+    <AdminLayout title='Admin dashboard' className="adminDashboard">
+
       <Form style={{ width: "50%" }} className="d-flex mt-2 mb-2">
         <Form.Control
           type="search"
           onChange={(e) => {
-            setSearch(e.target.value);
+            settingSearch(e.target.value);
           }}
           placeholder="Search"
           className="me-2"
@@ -86,7 +93,7 @@ function AdminDashboard() {
       ) : (
         <h3> you have no users</h3>
       )}
-    </Container>
+    </AdminLayout>
   );
 }
 

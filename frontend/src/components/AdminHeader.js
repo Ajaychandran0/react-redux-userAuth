@@ -8,6 +8,8 @@ function AdminHeader() {
   const dispatch = useDispatch();
 //   const { user } = useSelector((state) => state.auth);
   const { admin } = useSelector((state) => state.admin);
+  let name = admin? admin.email.charAt(0).toUpperCase() + admin.email.slice(1): ''
+
 
   const onAdminLogout = () => {
     dispatch(logout());
@@ -18,9 +20,9 @@ function AdminHeader() {
     <div>
       <header className="header">
         <div className="logo">
-          <Link to="/admin"> <h2> Admin Dashboard </h2> </Link>
+          <Link to="/admin" className="nodec"> <h2> Admin Dashboard </h2> </Link>
         </div>
-        <h4>Welcome {admin && admin.email.split('@')[0]}</h4>
+        {admin?<h4>Welcome {name.split('@')[0]}</h4>:''}
 
         <ul>
           {admin ? (
@@ -29,15 +31,7 @@ function AdminHeader() {
                 <FaSignOutAlt /> Logout
               </button>
             </li>
-          ) : (
-            <>
-              <li>
-                <Link to="/login">
-                  <FaSignInAlt /> Login
-                </Link>
-              </li>
-            </>
-          )}
+          ) : ''}
         </ul>
       </header>
     </div>

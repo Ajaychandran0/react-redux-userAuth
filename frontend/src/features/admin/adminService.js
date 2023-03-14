@@ -33,7 +33,7 @@ const getUsers = async (token) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        const response = await axios.patch(API_URL, config)
+        const response = await axios.get(API_URL, config)
         return response.data
 
     } catch (error) {
@@ -49,7 +49,7 @@ const blockUser = async (userId, token) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        const response = await axios.patch(API_URL + `user/${userId}`, config)
+        const response = await axios.put(API_URL + `user/${userId}`, config)
         return response.data
 
     } catch (error) {
@@ -66,12 +66,28 @@ const deleteUser = async (userId, token) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        const response = await axios.delete(API_URL + `user/${userId}`, config)
+        const response = await axios.delete(API_URL + `/user/${userId}`, config)
         return response.data
+        
     } catch (error) {
         throw new Error(error.response.data.message)
     }
+}
 
+// filter user
+const filterUser = async (search, token) => {
+    try {
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.post(API_URL + `/user/search`, {search}, config)
+        return response.data
+        
+    } catch (error) {
+        throw new Error(error.response.data.message)
+    }
 }
 
 const adminService = {
@@ -79,7 +95,8 @@ const adminService = {
     login,
     blockUser,
     deleteUser,
-    getUsers
+    getUsers,
+    filterUser
 }
 
 export default adminService

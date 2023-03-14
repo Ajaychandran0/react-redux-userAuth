@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../../features/admin/adminSlice";
 import Spinner from "../../components/Spinner";
+import AdminLayout from "../../components/AdminLayout";
 
 function AdminLogin() {
     const [formData, setFormData] = useState({
@@ -54,8 +55,8 @@ function AdminLogin() {
     }
 
     return (
-        <>
-            <section className="heading">
+        <AdminLayout title='Admin login'>
+             <section className="heading">
                 <h1>
                     <FaSignInAlt /> Admin Login
                 </h1>
@@ -96,7 +97,7 @@ function AdminLogin() {
                     </div>
                 </form>
             </section>
-        </>
+        </AdminLayout>
     );
 }
 

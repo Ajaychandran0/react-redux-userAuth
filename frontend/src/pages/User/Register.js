@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 import { register, reset } from "../../features/auth/authSlice";
 import Spinner from "../../components/Spinner";
+import Layout from "../../components/Layout";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -62,7 +63,7 @@ function Register() {
   }
 
   return (
-    <>
+    <Layout title='Register'>
       <section className="heading">
         <h1>
           <FaUser /> Register
@@ -127,7 +128,7 @@ function Register() {
           </div>
         </form>
       </section>
-    </>
+    </Layout>
   );
 }
 
