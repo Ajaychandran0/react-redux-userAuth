@@ -7,18 +7,17 @@ import { getUsers, filterUser, reset } from "../../features/admin/usersSlice";
 // import Spinner from "../../components/Spinner";
 import AdminLayout from "../../components/AdminLayout";
 
-  
 function AdminDashboard() {
   const { admin } = useSelector((state) => state.admin);
-  const { users, isError, message } = useSelector((state) => state.users)
+  const { users, isError, message } = useSelector((state) => state.users);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('in use effect')
+    console.log("in use effect");
     if (isError) {
-      console.log('hey in error');
+      console.log("hey in error");
       console.log(message);
     }
 
@@ -27,52 +26,61 @@ function AdminDashboard() {
     }
 
     dispatch(getUsers());
-    
-    // here  return function works when the component unmounts 
-    return () => {
-      console.log('hey in dispatch reset')
-      dispatch(reset())
-    }
 
+    // here  return function works when the component unmounts
+    return () => {
+      console.log("hey in dispatch reset");
+      dispatch(reset());
+    };
   }, [admin, navigate]);
 
   const [search, setSearch] = useState("");
 
-  const searchUser = () => {
-    dispatch(filterUser(search))
+  const searchUser = (e) => {
+    e.preventDefault();
+    dispatch(filterUser(search));
   };
 
   // if(isLoading){
   //   return <Spinner/>
   // }
 
-   const settingSearch =(value)=>{
-    if(value.length===0){
-      setSearch(value)
-      dispatch(filterUser(''))
-    }else{
-      setSearch(value)
+  const settingSearch = (value) => {
+    if (value.length === 0) {
+      setSearch(value);
+      dispatch(filterUser(""));
+    } else {
+      setSearch(value);
       // dispatch(adminSearch(searchkeyword))
     }
-  }
+  };
+  const addUser = () => {
+    navigate("/signup");
+  };
 
   return (
-    <AdminLayout title='Admin dashboard' className="adminDashboard">
+    <AdminLayout title="Admin dashboard" className="adminDashboard">
+      <div
+        style={{ display: "flex", justifyContent: "space-between" }}
+        className="m-2"
+      >
+        <Form style={{ width: "50%" }} className="d-flex mt-2 mb-2" onSubmit={searchUser} >
+          <Form.Control
+            type="search"
+            onChange={(e) => {
+              settingSearch(e.target.value);
+            }}
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+          />
+          <Button variant="outline-success" type="submit">
+            Search
+          </Button>
+        </Form>
+        <Button onClick={addUser}> Add user</Button>
+      </div>
 
-      <Form style={{ width: "50%" }} className="d-flex mt-2 mb-2">
-        <Form.Control
-          type="search"
-          onChange={(e) => {
-            settingSearch(e.target.value);
-          }}
-          placeholder="Search"
-          className="me-2"
-          aria-label="Search"
-        />
-        <Button onClick={searchUser} variant="outline-success">
-          Search
-        </Button>
-      </Form>
       {users.length > 0 ? (
         <Table striped bordered hover>
           <thead>

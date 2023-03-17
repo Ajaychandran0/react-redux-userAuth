@@ -56,18 +56,22 @@ const updateUser = asyncHandler(async (req, res) => {
 const searchUser = asyncHandler(async (req, res) => {
 
     try {
-        let username = req.body.search
-        console.log(username, 'hey this is username')
-        User.find({ name: { $regex: ".*" + username + ".*", $options: "i" } })
-            .then((data) => {
-                res.status(200).json(data);
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err)
-                res.status(400).json(err);
-            });
+        let searchFor = req.body.search
+        console.log(searchFor, 'hey this is username')
+        User.find({
+            $or: [
+                { name: { $regex: ".*" + searchFor + ".*", $options: "i" } },
+                { email: { $regex: ".*" + searchFor + ".*", $options: "i" } }
+            ]
+        }).then((data) => {
+            res.status(200).json(data);
+            console.log(data);
+        }).catch((err) => {
+            console.log(err)
+            res.status(400).json(err);
+        });
     } catch (error) {
+        console.log('hsy in search baf request eroor')
         res.status(400).json(error.message);
     }
 })

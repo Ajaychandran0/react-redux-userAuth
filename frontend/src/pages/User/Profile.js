@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MDBCol, MDBFile, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 import Layout from '../../components/Layout';
 import { changeUserImage, getUserData } from '../../features/auth/authSlice';
@@ -11,6 +11,7 @@ function Profile() {
   const [photo, setPhoto] = useState('')
   const dispatch = useDispatch()
   const { user, isError, isLoading, message } = useSelector((state) => state.auth)
+
 
 
   const addphoto = (e) => {
@@ -36,6 +37,7 @@ function Profile() {
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
+
 
   if (isLoading) {
     return <Spinner />

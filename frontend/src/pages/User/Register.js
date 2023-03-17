@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,7 +7,12 @@ import { register, reset } from "../../features/auth/authSlice";
 import Spinner from "../../components/Spinner";
 import Layout from "../../components/Layout";
 
+
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
+
 function Register() {
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +21,8 @@ function Register() {
   });
 
   const { name, email, password, password2 } = formData;
+  // const { email, password, password2 } = formData;
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,10 +51,19 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const v1 = USER_REGEX.test(name)
+    const v2 = PWD_REGEX.test(password)
 
     if (password !== password2) {
       toast.error("Passwords do not match");
-    } else {
+    } 
+
+    // if(!v1 || !v2){
+    //   toast.error('validation fails')
+    //   return
+    // }
+
+    else {
       const userData = {
         name,
         email,
@@ -65,6 +81,7 @@ function Register() {
   return (
     <Layout title='Register'>
       <section className="heading">
+        {/* <p ref={errRef} className={errMsg? 'errmsg' : 'offscreen'}>{errMsg}</p> */}
         <h1>
           <FaUser /> Register
         </h1>
@@ -122,7 +139,8 @@ function Register() {
           </div>
 
           <div className="form-group">
-            <button type="submit" className="button button-block">
+            <button type="submit" className="button button-block" >
+            {/* disabled={!validName || !validPwd || !validMatch ? true: false} */}
               Submit
             </button>
           </div>
